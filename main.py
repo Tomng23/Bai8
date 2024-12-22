@@ -1,85 +1,55 @@
 import streamlit as st
+import random
 
-col1, col2, col3, col4, col5 = st.columns(5)
-col6, col7 = st.columns([2,1])
+st.title("Lên Thực Đơn Cho Các Bữa Ăn Trong Ngày 🍽️")
 
-with col1:
-    b1 = st.button('Con Mèo')
-with col2:
-    b2 = st.button('Con Chó')
-with col3:
-    b3 = st.button('Con Gà')
-with col4:
-    b4 = st.button('Con Bò')
-with col5:
-    b5 = st.button('Con Lợn')   
+breakfast_items = ["Bánh cuốn", "Hủ tiếu", "Bánh bao", "Bánh ướt", "Bánh bèo", "Mì Quảng"]
+main_dishes = ["Thịt kho tàu", "Cá chiên giòn", "Gà xào sả ớt", "Sườn ram", "Tôm hấp", "Mực nướng muối ớt"]
+veggie_dishes = ["Canh bí đỏ", "Rau cải luộc", "Canh khoai mỡ", "Salad rau củ", "Canh cải thịt bằm"]
 
-if b1:
-    with col6:
-        st.write('Audio')
-        audio = open('audio/cat_audio.mp3','rb')
-        st.audio(audio, format='audio.mp3')
+def suggest_random(choices, num):
+    return random.sample(choices, num)
 
-        st.write('Video')
-        video = 'https://www.youtube.com/watch?v=8RlnjSbyBpk'
-        st.video(video, format='video/mp4')
-    with col7:
-        image = 'image/cat.png'
-        st.image(image, caption='*Con mèo*')
-        st.write('Mèo dành khoảng 70% cuộc đời để ngủ. Đó là khoảng 13–16 giờ mỗi ngày!')
-if b2:
-    with col6:
-        st.write('Audio')
-        audio = open('audio/dog_audio.mp3','rb')
-        st.audio(audio, format='audio.mp3')
+st.header("🍳 Bữa Sáng")
+breakfast = st.multiselect("Chọn món cho bữa sáng:", breakfast_items)
+if st.button("Gợi ý món cho bữa sáng"):
+    breakfast = suggest_random(breakfast_items, 2)
+    st.write("Gợi ý món: ", ", ".join(breakfast))
 
-        st.write('Video')
-        video = 'https://www.youtube.com/watch?v=nRBwxQ_xXe8'
-        st.video(video, format='video/mp4')
-    with col7:
-        image = 'image/dog.png'
-        st.image(image, caption='*Con Chó*')
-        st.write('Khứu giác của chó tốt hơn ít nhất 40 lần so với con người. Chúng thậm chí có thể phát hiện bệnh tật!')
+st.header("🍲 Bữa Trưa")
+lunch_main_dishes = st.multiselect("Chọn 2 món mặn cho bữa trưa:", main_dishes, max_selections=2)
+if st.button("Gợi ý món mặn cho bữa trưa"):
+    lunch_main_dishes = suggest_random(main_dishes, 2)
+    st.write("Gợi ý món mặn: ", ", ".join(lunch_main_dishes))
 
-if b3:
-    with col6:
-        st.write('Audio')
-        audio = open('audio/chicken_audio.mp3','rb')
-        st.audio(audio, format='audio.mp3')
+lunch_veggie_dish = st.multiselect("Chọn 1 món rau hoặc canh cho bữa trưa:", veggie_dishes, max_selections=1)
+if st.button("Gợi ý món rau/canh cho bữa trưa"):
+    lunch_veggie_dish = suggest_random(veggie_dishes, 1)
+    st.write("Gợi ý món rau/canh: ", ", ".join(lunch_veggie_dish))
 
-        st.write('Video')
-        video = 'https://www.youtube.com/watch?v=bCsBGLfUbZg'
-        st.video(video, format='video/mp4')
-    with col7:
-        image = 'image/chicken.png'
-        st.image(image, caption='*Con Gà*')
-        st.write('Gà có khả năng nhận diện hơn 100 khuôn mặt khác nhau của người hoặc động vật.')
+st.header("🍛 Bữa Tối")
+dinner_main_dishes = st.multiselect("Chọn 2 món mặn cho bữa tối:", main_dishes, max_selections=2)
+if st.button("Gợi ý món mặn cho bữa tối"):
+    dinner_main_dishes = suggest_random(main_dishes, 2)
+    st.write("Gợi ý món mặn: ", ", ".join(dinner_main_dishes))
 
-if b4:
-    with col6:
-        st.write('Audio')
-        audio = open('audio/cow_audio.mp3','rb')
-        st.audio(audio, format='audio.mp3')
+dinner_veggie_dish = st.multiselect("Chọn 1 món rau hoặc canh cho bữa tối:", veggie_dishes, max_selections=1)
+if st.button("Gợi ý món rau/canh cho bữa tối"):
+    dinner_veggie_dish = suggest_random(veggie_dishes, 1)
+    st.write("Gợi ý món rau/canh: ", ", ".join(dinner_veggie_dish))
 
-        st.write('Video')
-        video = 'https://www.youtube.com/watch?v=KjmuBo8xoCU'
-        st.video(video, format='video/mp4')
-    with col7:
-        image = 'image/cow.png'
-        st.image(image, caption='*Con Bò*')
-        st.write('Bò có những người bạn thân và sẽ bị căng thẳng khi bị tách khỏi nhau.')
+st.subheader("📋 Thực Đơn Của Bạn")
+if breakfast:
+    st.write("**Bữa sáng:**", ", ".join(breakfast))
+else:
+    st.write("**Bữa sáng:** Chưa chọn món")
 
-if b5:
-    with col6:
-        st.write('Audio')
-        audio = open('audio/pig_audio.mp3','rb')
-        st.audio(audio, format='audio.mp3')
+if lunch_main_dishes and lunch_veggie_dish:
+    st.write("**Bữa trưa:**", ", ".join(lunch_main_dishes + lunch_veggie_dish))
+else:
+    st.write("**Bữa trưa:** Chưa chọn đủ món")
 
-        st.write('Video')
-        video = 'https://www.youtube.com/watch?v=iUbTO-VODX0'
-        st.video(video, format='video/mp4')
-    with col7:
-        image = 'image/pig.png'
-        st.image(image, caption='*Con Lợn*')
-        st.write('Lợn thông minh hơn chó và có thể học cách chơi trò chơi điện tử!')
-        
+if dinner_main_dishes and dinner_veggie_dish:
+    st.write("**Bữa tối:**", ", ".join(dinner_main_dishes + dinner_veggie_dish))
+else:
+    st.write("**Bữa tối:** Chưa chọn đủ món")
